@@ -3,8 +3,10 @@ import React from 'react';
 
 import { useFormik } from "formik";
 import { TextField, Button, Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const AdminLogin = () => {
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -21,8 +23,10 @@ const AdminLogin = () => {
       });
 
       const json = await response.json();
-      console.log(json)
-      
+      if(json.success){
+        localStorage.setItem("token", json.token);
+        navigate("/admin/dashboard")
+      }
     },
   });
 

@@ -3,8 +3,10 @@ import React from 'react';
 // formik and Yup
 import { useFormik } from "formik";
 import { TextField, Button, Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const FarmerLogin = () => {
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -21,9 +23,9 @@ const FarmerLogin = () => {
       });
 
       const json = await response.json();
-      console.log(json)
       if(json.success){
-        console.log("dfbg")
+        localStorage.setItem("token", json.token);
+        navigate("")
       }
       
     },

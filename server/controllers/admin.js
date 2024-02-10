@@ -6,6 +6,7 @@ const FolderAssignment = require('../models/folderAssignment');
 const Farmer = require('../models/farmer');
 
 const login = async (req, res) => {
+  let success = false;
   try {
     const { username, password } = req.body;
 
@@ -26,9 +27,10 @@ const login = async (req, res) => {
     }
 
     const token = jwt.sign({ adminId: admin._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    success = true;
 
 
-    res.status(200).json({ admin });
+    res.status(200).json({ admin, success, token });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

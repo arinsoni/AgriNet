@@ -32,14 +32,14 @@ const Homepage = () => {
         display: 'flex',
         flexDirection: isMobile ? 'column' : 'row',
         width: '80%',
-        maxWidth: maxWidth, // Set maximum width dynamically
+        maxWidth: maxWidth, 
         backgroundColor: 'lightblue',
-        boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)', // Add shadow for depth
-        borderRadius: '10px', // Add border radius for rounded corners
+        boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)', 
+        borderRadius: '10px', 
         padding: '10px'
       }} >
         <Box sx={{
-          width: '100%', // Set width to 100% in mobile mode
+          width: '100%',
           display: 'flex',
           paddingRight: !isMobile ? '10px' : '',
           justifyContent: 'center',
@@ -57,7 +57,7 @@ const Homepage = () => {
 
         </Box>
         <Box sx={{
-          width: '100%', // Set width to 100% in mobile mode
+          width: '100%', 
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
@@ -69,7 +69,7 @@ const Homepage = () => {
             alignItems: 'center',
           }}>
             Log in as Farmer
-            {/* <FarmerLogin /> */}
+            <FarmerLogin />
           </Box>
 
         </Box>
