@@ -22,7 +22,6 @@ const verifyToken = async (req, res, next) => {
     }
 };
 
-// Enable CORS for all routes
 const corsOptions = {
     origin: 'http://localhost:6001',
 };

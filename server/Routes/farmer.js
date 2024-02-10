@@ -8,6 +8,6 @@ const router = express.Router();
 
 router.use("/login", login);
 router.use("/register", register);
-router.use("/data-uploads", verifyToken, dataUploads);
+router.use("/data-uploads/", verifyToken, dataUploads);
 
 module.exports = router;

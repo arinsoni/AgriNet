@@ -80,10 +80,35 @@ const folderAssignment = async (req, res) => {
   }
 }
 
+const folders = async (req, res) => {
+    try {
+        const folders = await Folder.find();
+        res.status(200).json(folders);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}
+
+const deleteFolder = async (req, res) => {
+  try {
+    let folder = await Folder.findById(req.params.id);
+    if(!folder){
+        return res.status(404).send("Not Found");
+    }
+    folder = await Folder.findByIdAndDelete(req.params.id);
+    res.json({"Success" : "the Folder has been deleted", folder: folder});
+    
+} catch (error) {
+    res.status(500).json({ message: error.message });
+}
+}
+
 
 module.exports = {
   login,
   register,
   createFolders,
-  folderAssignment
+  folderAssignment,
+  folders,
+  deleteFolder
 }

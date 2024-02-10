@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const express = require('express');
 const dotenv = require('dotenv');
 var cors = require('cors');
-const routes = require('./controllers/main')
 const AdminRouter = require('./Routes/admin')
 const FarmerRouter = require('./Routes/farmer')
 
@@ -22,7 +21,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 //Routes
-app.use('/api', routes);
 app.use('/api/admin', AdminRouter);
 app.use('/api/farmer', FarmerRouter);
 
