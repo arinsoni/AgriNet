@@ -11,5 +11,4 @@ router.use("/folder-assignments", verifyToken ,folderAssignment);
 router.use("/folders", verifyToken ,folders);
 router.use("/delete-folder/:id", verifyToken, deleteFolder);
 
-
 module.exports = router;
