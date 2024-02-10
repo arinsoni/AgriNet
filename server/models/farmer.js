@@ -5,6 +5,7 @@ const farmerSchema = new Schema({
   name: String,
   username: String,
   password: String, 
+  isAdmin: Boolean,
   email: String,
   region: String,
   created_at: { type: Date, default: Date.now },

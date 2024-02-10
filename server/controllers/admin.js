@@ -2,7 +2,8 @@ const Admin = require('../models/admin');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Folder = require('../models/folder');
-const FolderAssignment = require('../models/folderAssignment')
+const FolderAssignment = require('../models/folderAssignment');
+const Farmer = require('../models/farmer');
 
 const login = async (req, res) => {
   try {
@@ -10,7 +11,17 @@ const login = async (req, res) => {
 
     const admin = await Admin.findOne({ username });
 
-    if (!admin || !(await bcrypt.compare(password, admin.password))) {
+    if (!admin) {
+      const tempFarmer = await Farmer.findOne({ username });
+      if (tempFarmer) {
+        return res.status(501).json({ message: 'You are a farmer' })
+      }
+      else{
+        return res.status(401).json({ message: 'Admin doesn\'t exist' });
+      }
+    }
+
+    if (!(await bcrypt.compare(password, admin.password))) {
       return res.status(401).json({ message: 'Invalid username or password' });
     }
 
@@ -35,6 +46,7 @@ const register = async (req, res) => {
     const newAdmin = new Admin({
       name,
       username,
+      isAdmin: true,
       email,
       password: hashedPassword
     });

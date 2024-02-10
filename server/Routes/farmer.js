@@ -1,5 +1,5 @@
 const express = require("express");
-const { login, register } = require("../controllers/admin");
+const { login, register } = require("../controllers/farmer");
 const verifyToken = require('../middleware/auth');
 const { dataUploads } = require("../controllers/farmer");
 

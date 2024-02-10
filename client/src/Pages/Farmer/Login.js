@@ -22,6 +22,9 @@ const FarmerLogin = () => {
 
       const json = await response.json();
       console.log(json)
+      if(json.success){
+        console.log("dfbg")
+      }
       
     },
   });

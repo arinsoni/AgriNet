@@ -69,7 +69,7 @@ const Homepage = () => {
             alignItems: 'center',
           }}>
             Log in as Farmer
-            <FarmerLogin />
+            {/* <FarmerLogin /> */}
           </Box>
 
         </Box>
