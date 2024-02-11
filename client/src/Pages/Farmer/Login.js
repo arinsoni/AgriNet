@@ -25,7 +25,7 @@ const FarmerLogin = () => {
       const json = await response.json();
       if(json.success){
         localStorage.setItem("token", json.token);
-        navigate("")
+        navigate(`/farmer-dashboard/${json.farmer._id}`)
       }
       
     },

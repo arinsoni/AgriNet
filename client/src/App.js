@@ -9,16 +9,27 @@ import AdminDashboard from "./Pages/AdminDashboard";
 import FarmerRegister from "./Pages/Farmer/Register";
 import AdminRegister from "./Pages/Admin/Register";
 import Folder from "./Pages/Folder";
+import FarmerDashboard from "./Pages/FarmerDashboard";
+import AdminLogin from "./Pages/Admin/Login";
+import FarmerLogin from "./Pages/Farmer/Login";
 
 const App = () => {
   return (
     <Router>
       <Routes>
         <Route exact path="/" element={<Homepage />} />
-        <Route exact path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/farmer-register" element={<FarmerRegister />} />
+
+        {/* Admin Routes */}
+        <Route exact path="/admin-dashboard/:id" element={<AdminDashboard />} />
         <Route exact path="/admin/folders/:id" element={<Folder />} />
         <Route path="/admin-register" element={<AdminRegister />} />
+        <Route path="/admin-login" element={<AdminLogin />} />
+
+        {/* Farmer Routes */}
+        <Route exact path="/farmer-dashboard/:id" element={<FarmerDashboard />} />
+        <Route path="/farmer-register" element={<FarmerRegister />} />
+        <Route path="/farmer-login" element={<FarmerLogin />} />
+
       </Routes>
 
     </Router>

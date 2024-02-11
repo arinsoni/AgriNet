@@ -37,8 +37,9 @@ const login = async (req, res) => {
 }
 
 const register = async (req, res) => {
+  let success = false;
   try {
-    const { name, username, email, password } = req.body;
+    const { username, email, password } = req.body;
     const existingAdmin = await Admin.findOne({ username });
     if (existingAdmin) {
       return res.status(400).json({ message: 'Username is already taken' });
@@ -46,15 +47,15 @@ const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newAdmin = new Admin({
-      name,
       username,
       isAdmin: true,
       email,
       password: hashedPassword
     });
     const admin = await newAdmin.save();
+    success = true;
 
-    res.status(201).json(admin);
+    res.status(201).json({admin, success});
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

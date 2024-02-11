@@ -35,6 +35,7 @@ const login = async (req, res) => {
   }
 }
 const register = async (req, res) => {
+  let success = false;
   try {
     const { name, username, email, password } = req.body;
     const existingFarmer = await Farmer.findOne({ username });
@@ -51,8 +52,9 @@ const register = async (req, res) => {
       password: hashedPassword
     });
     const farmer = await newFarmer.save();
+    success = true;
 
-    res.status(201).json(farmer);
+    res.status(201).json({farmer, success});
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

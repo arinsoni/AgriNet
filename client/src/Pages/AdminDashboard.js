@@ -5,7 +5,8 @@ import Folder from "./Folder";
 
 const AdminDashboard = () => {
   const initialFolderList = [];
-  const [folderList, setFolderList] = useState(initialFolderList);
+const [folderList, setFolderList] = useState(initialFolderList);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,11 +23,14 @@ const AdminDashboard = () => {
         },
       });
       const json = await response.json();
+      console.log("Response:", json); // Log the response data
       setFolderList(json);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
+  
+
 
   return (
     <Grid
@@ -36,30 +40,35 @@ const AdminDashboard = () => {
       alignItems="center"
       style={{ height: "100vh" }}
     >
-      {folderList.map((item, index) => (
-        <Grid item key={index}>
-          <Card sx={{ maxWidth: 345 }}>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {item.name}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {item.desc}
-              </Typography>
-              <Link
-                to={`/admin/folders/${item._id}`}
-                style={{ textDecoration: "none" }}
-              >
-                <Button variant="contained" sx={{ mt: 2 }}>
-                  View Folder
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
-        </Grid>
-      ))}
+      {!folderList.length ? (
+        <Typography variant="h6">No folders found</Typography>
+      ) : (
+        folderList.map((item, index) => (
+          <Grid item key={index}>
+            <Card sx={{ maxWidth: 345 }}>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {item.name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {item.desc}
+                </Typography>
+                <Link
+                  to={`/admin/folders/${item._id}`}
+                  style={{ textDecoration: "none" }}
+                >
+                  <Button variant="contained" sx={{ mt: 2 }}>
+                    View Folder
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))
+      )}
     </Grid>
   );
+  
 };
 
 export default AdminDashboard;
