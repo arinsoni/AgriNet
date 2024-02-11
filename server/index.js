@@ -23,14 +23,12 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-//Routes
 app.use('/api/admin', AdminRouter);
 app.use('/api/farmer', FarmerRouter);
 app.use('/api', FolderRouter);
 
 
 
-//MongoDB setup
 mongoose.connect(process.env.MONGO_URL, {
 }).then(() => {
 	app.listen(PORT, () => console.log(`Server PORT ${PORT}`))

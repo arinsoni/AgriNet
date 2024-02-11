@@ -12,7 +12,6 @@ const AdminLogin = () => {
   
 
 
-  // Call the useFormik hook unconditionally
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -36,11 +35,9 @@ const AdminLogin = () => {
           navigate(`/admin-dashboard/${json.admin._id}`);
         } else {
           console.error("Login failed:", json.message);
-          // Handle login failure, show error message to user, etc.
         }
       } catch (error) {
         console.error("Login failed:", error);
-        // Handle login failure, show error message to user, etc.
       }
     },
   });

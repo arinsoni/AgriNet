@@ -8,8 +8,7 @@ const farmerSchema = new Schema({
   isAdmin: Boolean,
   email: String,
   region: String,
-  image: String,
-  text: String,
+ 
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now }
 });

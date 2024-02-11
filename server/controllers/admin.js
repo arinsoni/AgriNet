@@ -181,8 +181,31 @@ const getAdmin = async (req, res) => {
   }
 }
 
+const getImages = async (req, res) => {
+  try {
+    const { folderId } = req.params;
+    const folderAssignments = await FolderAssignment.find({ folder_id: folderId });
+    const images = folderAssignments.map(assignment => assignment.image);
+    res.status(200).json(images);
+  } catch (error) {
+    console.error('Error fetching images:', error);
+    res.status(500).json({ message: 'Error fetching images', error: error.message });
+  }
+}
 
-// Route to handle image upload
+const getText = async (req, res) => {
+  try {
+    const { folderId, farmerId, adminId  } = req.query;
+    const folderAssignment = await FolderAssignment.find({ folder_id: folderId, assigned_by: adminId, farmer_id: farmerId });
+    const text = folderAssignment
+    res.status(200).json(text);
+  } catch (error) {
+    console.error('Error fetching images:', error);
+    res.status(500).json({ message: 'Error fetching images', error: error.message });
+  }
+}
+
+
 
 module.exports = {
   login,
@@ -193,5 +216,7 @@ module.exports = {
   deleteFolder,
   getAssignedFarmers,
   getUnAssignedFarmers,
-  getAdmin
+  getAdmin,
+  getImages,
+  getText
 }

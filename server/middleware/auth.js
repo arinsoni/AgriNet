@@ -15,7 +15,6 @@ const verifyToken = async (req, res, next) => {
   }
 };
 
-// Enable CORS for all routes
 const corsOptions = {
   origin: 'http://localhost:3000',
 };

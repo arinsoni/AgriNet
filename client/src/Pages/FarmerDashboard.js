@@ -21,6 +21,7 @@ const FarmerDashboard = () => {
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState(null);
   const [text, setText] = useState('');
+  const [folderId, setFolderId] = useState()
 
   const description = "hello";
 
@@ -33,14 +34,14 @@ const FarmerDashboard = () => {
   useEffect(() => {
     const fetchAssignedFolders = async () => {
       try {
-        const token = localStorage.getItem('token'); // Get the authentication token from localStorage
+        const token = localStorage.getItem('token'); 
         const headers = {
           'Content-Type': 'application/json',
-          'auth-token': token // Include the authentication token in the headers
+          'auth-token': token 
         };
   
         const response = await fetch(`http://localhost:6001/api/farmer/assigned-folders/${farmerId}`, {
-          headers: headers // Pass the headers object to the fetch request
+          headers: headers 
         });
   
         if (!response.ok) {
@@ -65,7 +66,11 @@ const FarmerDashboard = () => {
     setImage(e.target.files[0]);
   };
 
-  const handleOpen = () => setOpen(true);
+  const handleOpen = (folderId) => {
+    setOpen(true);
+    setFolderId(folderId);
+  };
+  
   const handleClose = () => setOpen(false);
 
   const handleTextChange = (event) => setText(event.target.value);
@@ -75,6 +80,8 @@ const FarmerDashboard = () => {
     formData.append('image', image);
     formData.append('text', text)
     formData.append('farmerId', farmerId)
+    formData.append('folderId', folderId)
+    console.log(`folder la dataq: ${formData}`)
 
     try {
       const response = await fetch('http://localhost:6001/api/farmer/upload', {
@@ -106,7 +113,8 @@ const FarmerDashboard = () => {
                 <Typography variant="body2" color="text.secondary">
                   Assigned by: {admin ? admin.name : 'N/A'}
                 </Typography>
-                <Button onClick={handleOpen}>View More</Button>
+                <Button onClick={() => handleOpen(folder._id)}>View More</Button>
+
               </CardContent>
             </Card>
           </Grid>

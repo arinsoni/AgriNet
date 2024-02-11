@@ -4,22 +4,20 @@ const { login, register, getAllFarmers, dataUploads, getAssignedFolders } = requ
 const verifyToken = require('../middleware/auth');
 const path = require('path');
 const Farmer = require("../models/farmer");
-
+const FolderAssignment = require("../models/folderAssignment");
 
 const router = express.Router();
 
-// Define routes for login, register, and data uploads
+
 router.post("/login", login);
 router.post("/register", register);
 router.get("/all-farmers", verifyToken, getAllFarmers);
 router.post("/data-uploads", verifyToken, dataUploads);
 router.use("/assigned-folders/:farmerId", verifyToken, getAssignedFolders);
 
-
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './'); // Define the directory to save uploaded images
+    cb(null, './uploads');
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
@@ -28,39 +26,27 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Route to handle image upload
-// router.post('/upload', upload.single('image'), async (req, res) => {
-//   try {
-//     // Assuming you have a Farmer model with an image field
-//     const { farmerId } = req.body;
-//     const imageUrl = req.file.path; // Path to the uploaded image
-//     const farmer = await Farmer.findByIdAndUpdate(farmerId, { image: imageUrl }, { new: true });
-
-//     res.status(200).json({ success: true, farmer });
-//   } catch (error) {
-//     console.error('Error uploading image:', error);
-//     res.status(500).json({ success: false, message: 'Error uploading image' });
-//   }
-// });
-
 router.post('/upload', upload.single('image'), async (req, res) => {
   try {
-    // Extract data from the request body
-    const { farmerId, text } = req.body;
+    const { farmerId, folderId, text } = req.body;
 
-    // Get the path to the uploaded image
     const imageUrl = req.file.path;
-    // console.log(text, imageUrl)
+    const updatedFolderAssignments = await FolderAssignment.updateMany(
+      { farmer_id: farmerId, folder_id: folderId },
+      { image: imageUrl, text: text },
+      { new: true }
+    );
 
-    const updatedFarmer = await Farmer.findByIdAndUpdate(farmerId, { image: imageUrl, text: text }, { new: true });
+    console.log(updatedFolderAssignments);
 
-    console.log(updatedFarmer)
-    res.status(200).json({ success: true, farmer: updatedFarmer });
+    res.status(200).json({ success: true, folderAssignments: updatedFolderAssignments });
   } catch (error) {
     console.error('Error uploading image:', error);
     res.status(500).json({ success: false, message: 'Error uploading image' });
   }
 });
 
+
+router.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 module.exports = router;
