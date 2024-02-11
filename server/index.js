@@ -5,6 +5,8 @@ var cors = require('cors');
 const AdminRouter = require('./Routes/admin')
 const FarmerRouter = require('./Routes/farmer')
 const FolderRouter = require('./Routes/folders')
+const multer = require('multer');
+
 
 dotenv.config();
 
@@ -25,6 +27,7 @@ app.use(cors(corsOptions));
 app.use('/api/admin', AdminRouter);
 app.use('/api/farmer', FarmerRouter);
 app.use('/api', FolderRouter);
+
 
 
 //MongoDB setup

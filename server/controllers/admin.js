@@ -5,6 +5,7 @@ const Folder = require('../models/folder');
 const FolderAssignment = require('../models/folderAssignment');
 const Farmer = require('../models/farmer');
 
+
 const login = async (req, res) => {
   let success = false;
   try {
@@ -166,7 +167,7 @@ const getUnAssignedFarmers = async (req, res) => {
 };
 
 
-
+// Route to handle image upload
 
 module.exports = {
   login,
