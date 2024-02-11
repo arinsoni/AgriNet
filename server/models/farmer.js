@@ -9,7 +9,7 @@ const farmerSchema = new Schema({
   email: String,
   region: String,
   image: String,
-  data: String,
+  text: String,
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now }
 });

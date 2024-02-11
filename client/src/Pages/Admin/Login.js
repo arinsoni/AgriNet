@@ -8,7 +8,6 @@ const AdminLogin = () => {
   const navigate = useNavigate();
 
   const adminContextValue = useContext(adminContext);
-  const adminId = adminContextValue.adminId;
   const setAdminId = adminContextValue.setAdminId;
   
 
@@ -33,7 +32,7 @@ const AdminLogin = () => {
         if (json.success) {
           localStorage.setItem("token", json.token);
           setAdminId(json.admin._id);
-          console.log(adminId)
+
           navigate(`/admin-dashboard/${json.admin._id}`);
         } else {
           console.error("Login failed:", json.message);

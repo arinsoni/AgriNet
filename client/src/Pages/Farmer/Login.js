@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useFormik } from "formik";
 import { TextField, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import farmerContext from "../../context/farmer/farmerContext";
 
 const FarmerLogin = () => {
   const navigate = useNavigate();
+  const farmerContextValue = useContext(farmerContext);
+  const setFarmerId = farmerContextValue.setFarmerId;
+  const farmerId = farmerContextValue.farmerId;
 
   const formik = useFormik({
     initialValues: {
@@ -13,7 +17,7 @@ const FarmerLogin = () => {
     },
     onSubmit: async (values) => {
       const { username, password } = values;
-      const response = await fetch("http://localhost:6001/api/Farmer/login", {
+      const response = await fetch("http://localhost:6001/api/farmer/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -24,7 +28,9 @@ const FarmerLogin = () => {
       const json = await response.json();
       if (json.success) {
         localStorage.setItem("token", json.token);
-        navigate("/farmer/dashboard"); // Navigate to the farmer dashboard
+        setFarmerId(json.farmer._id);
+        console.log(farmerId)
+        navigate(`/farmer-dashboard/${json.farmer._id}`); 
       }
     },
   });

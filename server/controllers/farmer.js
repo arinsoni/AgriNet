@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const DataUpload = require('../models/dataUpload');
 const Admin = require('../models/admin');
+const FolderAssignment = require('../models/folderAssignment');
+const Folder = require('../models/folder');
 
 
 const login = async (req, res) => {
@@ -88,11 +90,34 @@ const getAllFarmers = async (req, res) => {
   }
 };
 
+const getAssignedFolders = async (req, res) => {
+  try {
+    const { farmerId } = req.params;
+
+    const folderAssignments = await FolderAssignment.find({ farmer_id: farmerId });
+
+    const folderIds = folderAssignments.map(assignment => assignment.folder_id);
+
+    const folders = await Folder.find({ _id: { $in: folderIds } });
+
+    const foldersWithAdminDetails = folders.map(folder => {
+      const assignment = folderAssignments.find(assignment => assignment.folder_id.equals(folder._id));
+      return { folder, admin: assignment ? assignment.assigned_by : null };
+    });
+
+    res.status(200).json(foldersWithAdminDetails);
+  } catch (error) {
+    console.error('Error fetching assigned folders:', error);
+    res.status(500).json({ message: 'Error fetching assigned folders', error: error.message });
+  }
+}
+
 
 
 module.exports = {
   login,
   register,
   dataUploads,
-  getAllFarmers
+  getAllFarmers,
+  getAssignedFolders
 }

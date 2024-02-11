@@ -1,5 +1,5 @@
 const express = require("express");
-const { login, register, createFolders, folderAssignment, folders, deleteFolder, getAssignedFarmers, getUnAssignedFarmers } = require("../controllers/admin");
+const { login, register, createFolders, folderAssignment, folders, deleteFolder, getAssignedFarmers, getUnAssignedFarmers, getAdmin } = require("../controllers/admin");
 const verifyToken = require('../middleware/auth')
 
 const router = express.Router();
@@ -12,5 +12,6 @@ router.use("/folders", verifyToken ,folders);
 router.use("/delete-folder/:id", verifyToken, deleteFolder);
 router.use("/get-assigned-farmers", verifyToken, getAssignedFarmers);
 router.use("/get-unassigned-farmers", verifyToken, getUnAssignedFarmers);
+router.use("/get-admin", verifyToken, getAdmin);
 
 module.exports = router;

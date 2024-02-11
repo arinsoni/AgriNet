@@ -18,7 +18,7 @@ const login = async (req, res) => {
       if (tempFarmer) {
         return res.status(501).json({ message: 'You are a farmer' })
       }
-      else{
+      else {
         return res.status(401).json({ message: 'Admin doesn\'t exist' });
       }
     }
@@ -56,7 +56,7 @@ const register = async (req, res) => {
     const admin = await newAdmin.save();
     success = true;
 
-    res.status(201).json({admin, success});
+    res.status(201).json({ admin, success });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -88,7 +88,7 @@ const folderAssignment = async (req, res) => {
     if (!folder) {
       return res.status(404).json({ message: 'Folder not found' });
     }
-    
+
     const newFolderAssignment = new FolderAssignment({
       folder_id,
       farmer_id,
@@ -128,16 +128,16 @@ const deleteFolder = async (req, res) => {
 const getAssignedFarmers = async (req, res) => {
   try {
     const { folderId, adminId } = req.query;
-    
+
     if (!adminId) {
       return res.status(400).json({ message: 'Admin ID is missing or invalid' });
     }
     const folderAssignments = await FolderAssignment.find({ folder_id: folderId, assigned_by: adminId });
-    
+
     const farmerIds = folderAssignments.map(assignment => assignment.farmer_id);
 
     const assignedFarmers = await Farmer.find({ _id: { $in: farmerIds } });
-    
+
     res.status(200).json(assignedFarmers);
   } catch (error) {
     console.error("Error fetching assigned farmers:", error);
@@ -148,23 +148,38 @@ const getAssignedFarmers = async (req, res) => {
 const getUnAssignedFarmers = async (req, res) => {
   try {
     const { folderId, adminId } = req.query;
-    
+
     if (!adminId) {
       return res.status(400).json({ message: 'Admin ID is missing or invalid' });
     }
 
     const folderAssignments = await FolderAssignment.find({ folder_id: folderId, assigned_by: adminId });
-    
+
     const assignedFarmerIds = folderAssignments.map(assignment => assignment.farmer_id);
 
     const unAssignedFarmers = await Farmer.find({ _id: { $nin: assignedFarmerIds } });
-    
+
     res.status(200).json(unAssignedFarmers);
   } catch (error) {
     console.error("Error fetching unassigned farmers:", error);
     res.status(500).json({ message: "Error fetching unassigned farmers", error: error.message });
   }
 };
+
+
+const getAdmin = async (req, res) => {
+  try {
+    const { adminId } = req.params;
+    const admin = await Admin.findById(adminId);
+    if (!admin) {
+      return res.status(404).json({ message: 'Admin not found' });
+    }
+    res.status(200).json(admin);
+  } catch (error) {
+    console.error('Error fetching admin details:', error);
+    res.status(500).json({ message: 'Error fetching admin details', error: error.message });
+  }
+}
 
 
 // Route to handle image upload
@@ -177,5 +192,6 @@ module.exports = {
   folders,
   deleteFolder,
   getAssignedFarmers,
-  getUnAssignedFarmers
+  getUnAssignedFarmers,
+  getAdmin
 }
