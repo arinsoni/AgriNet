@@ -13,6 +13,8 @@ import {
   TextField
 } from "@mui/material";
 import farmerContext from "../context/farmer/farmerContext";
+import Navbar from "./Navbar";
+
 
 const FarmerDashboard = () => {
   const farmerContextValue = useContext(farmerContext);
@@ -94,8 +96,13 @@ const FarmerDashboard = () => {
       console.error('Error uploading image:', error);
     }
   };
+  const propValue = "Login as Admin";
+
 
   return (
+    <>
+          <Navbar prop={propValue } />
+
     <Grid container spacing={2} justifyContent="center" alignItems="center" style={{ height: "100vh" }}>
       {!foldersWithAdmin.length ? (
         <Typography variant="h6">No folders found</Typography>
@@ -136,7 +143,7 @@ const FarmerDashboard = () => {
             variant="outlined"
             value={text}
             onChange={handleTextChange}
-          />
+            />
           <Typography variant="body1" style={{ marginTop: '20px' }}>
             {description}
           </Typography>
@@ -151,6 +158,7 @@ const FarmerDashboard = () => {
         </DialogActions>
       </Dialog>
     </Grid>
+          </>
   );
 }
 
