@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, Typography, Button, Grid } from '@mui/material';
+import React, { useState, useEffect } from "react";
+import { Card, CardContent, Typography, Button, Grid } from "@mui/material";
+import { Link, useHistory, useNavigate } from "react-router-dom"; // Import useHistory hook
+import Folder from "./Folder";
 
 const AdminDashboard = () => {
   const initialFolderList = [];
   const [folderList, setFolderList] = useState(initialFolderList);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getFolders();
   }, []);
 
   const getFolders = async () => {
-    
     try {
       const response = await fetch(`http://localhost:6001/api/admin/folders`, {
         method: "GET",
@@ -22,12 +24,18 @@ const AdminDashboard = () => {
       const json = await response.json();
       setFolderList(json);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   };
 
   return (
-    <Grid container spacing={2} justifyContent="center" alignItems="center" style={{ height: '100vh' }}>
+    <Grid
+      container
+      spacing={2}
+      justifyContent="center"
+      alignItems="center"
+      style={{ height: "100vh" }}
+    >
       {folderList.map((item, index) => (
         <Grid item key={index}>
           <Card sx={{ maxWidth: 345 }}>
@@ -38,13 +46,20 @@ const AdminDashboard = () => {
               <Typography variant="body2" color="text.secondary">
                 {item.desc}
               </Typography>
-              <Button variant="contained" sx={{ mt: 2 }}>Click Me</Button>
+              <Link
+                to={`/admin/folders/${item._id}`}
+                style={{ textDecoration: "none" }}
+              >
+                <Button variant="contained" sx={{ mt: 2 }}>
+                  View Folder
+                </Button>
+              </Link>
             </CardContent>
           </Card>
         </Grid>
       ))}
     </Grid>
   );
-}
+};
 
 export default AdminDashboard;
