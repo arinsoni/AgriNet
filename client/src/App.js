@@ -1,13 +1,13 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-//App CSS
 import "./App.css";
 
 //Pages
 import Homepage from "./Pages/Homepage";
 import AdminDashboard from "./Pages/AdminDashboard";
-import Folder from "./Pages/Folder";
+import FarmerRegister from "./Pages/Farmer/Register";
+import AdminRegister from "./Pages/Admin/Register";
 
 const App = () => {
   return (
@@ -17,6 +17,13 @@ const App = () => {
           <Route exact path="/admin/dashboard" element={<AdminDashboard />} />
           <Route exact path="/admin/folders/:id" element={<Folder />} />
         </Routes>
+      <Routes>
+        <Route exact path="/" element={<Homepage />} />
+        <Route exact path="/admin/dashboard" element={<AdminDashboard />} />
+  <Route path="/farmer-register" element={<FarmerRegister />} />
+  <Route path="/admin-register" element={<AdminRegister />} />
+</Routes>
+
     </Router>
   );
 };
