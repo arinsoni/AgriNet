@@ -12,17 +12,13 @@ import AdminRegister from "./Pages/Admin/Register";
 const App = () => {
   return (
     <Router>
-        <Routes>
-          <Route exact path="/" element={<Homepage />} />
-          <Route exact path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route exact path="/admin/folders/:id" element={<Folder />} />
-        </Routes>
       <Routes>
         <Route exact path="/" element={<Homepage />} />
         <Route exact path="/admin/dashboard" element={<AdminDashboard />} />
-  <Route path="/farmer-register" element={<FarmerRegister />} />
-  <Route path="/admin-register" element={<AdminRegister />} />
-</Routes>
+        <Route path="/farmer-register" element={<FarmerRegister />} />
+        <Route exact path="/admin/folders/:id" element={<Folder />} />
+        <Route path="/admin-register" element={<AdminRegister />} />
+      </Routes>
 
     </Router>
   );
