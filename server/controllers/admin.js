@@ -82,6 +82,12 @@ const folderAssignment = async (req, res) => {
   try {
     const { folder_id, farmer_id, assigned_by } = req.body;
 
+
+    const folder = await Folder.findById(folder_id);
+    if (!folder) {
+      return res.status(404).json({ message: 'Folder not found' });
+    }
+    
     const newFolderAssignment = new FolderAssignment({
       folder_id,
       farmer_id,
@@ -118,6 +124,49 @@ const deleteFolder = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 }
+const getAssignedFarmers = async (req, res) => {
+  try {
+    const { folderId, adminId } = req.query;
+    
+    if (!adminId) {
+      return res.status(400).json({ message: 'Admin ID is missing or invalid' });
+    }
+    const folderAssignments = await FolderAssignment.find({ folder_id: folderId, assigned_by: adminId });
+    
+    const farmerIds = folderAssignments.map(assignment => assignment.farmer_id);
+
+    const assignedFarmers = await Farmer.find({ _id: { $in: farmerIds } });
+    
+    res.status(200).json(assignedFarmers);
+  } catch (error) {
+    console.error("Error fetching assigned farmers:", error);
+    res.status(500).json({ message: "Error fetching assigned farmers", error: error.message });
+  }
+};
+
+const getUnAssignedFarmers = async (req, res) => {
+  try {
+    const { folderId, adminId } = req.query;
+    
+    if (!adminId) {
+      return res.status(400).json({ message: 'Admin ID is missing or invalid' });
+    }
+
+    const folderAssignments = await FolderAssignment.find({ folder_id: folderId, assigned_by: adminId });
+    
+    const assignedFarmerIds = folderAssignments.map(assignment => assignment.farmer_id);
+
+    const unAssignedFarmers = await Farmer.find({ _id: { $nin: assignedFarmerIds } });
+    
+    res.status(200).json(unAssignedFarmers);
+  } catch (error) {
+    console.error("Error fetching unassigned farmers:", error);
+    res.status(500).json({ message: "Error fetching unassigned farmers", error: error.message });
+  }
+};
+
+
+
 
 module.exports = {
   login,
@@ -126,4 +175,6 @@ module.exports = {
   folderAssignment,
   folders,
   deleteFolder,
+  getAssignedFarmers,
+  getUnAssignedFarmers
 }

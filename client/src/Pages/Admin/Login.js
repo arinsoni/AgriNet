@@ -1,100 +1,86 @@
-import React from 'react';
-
-
+import React, { useContext } from 'react';
 import { useFormik } from "formik";
-import { TextField, Button, Box } from '@mui/material';
+import { TextField, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import adminContext from '../../context/admin/adminContext';
 
 const AdminLogin = () => {
   const navigate = useNavigate();
+
+  const adminContextValue = useContext(adminContext);
+  const adminId = adminContextValue.adminId;
+  const setAdminId = adminContextValue.setAdminId;
+  
+
+
+  // Call the useFormik hook unconditionally
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
     },
     onSubmit: async (values) => {
-      const { username, password } = values;
-      const response = await fetch("http://localhost:6001/api/admin/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-      });
+      try {
+        const response = await fetch("http://localhost:6001/api/admin/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        });
 
-      const json = await response.json();
-      if(json.success){
-        localStorage.setItem("token", json.token);
-        navigate(`/admin-dashboard/${json.admin._id}`)
+        const json = await response.json();
+        if (json.success) {
+          localStorage.setItem("token", json.token);
+          setAdminId(json.admin._id);
+          console.log(adminId)
+          navigate(`/admin-dashboard/${json.admin._id}`);
+        } else {
+          console.error("Login failed:", json.message);
+          // Handle login failure, show error message to user, etc.
+        }
+      } catch (error) {
+        console.error("Login failed:", error);
+        // Handle login failure, show error message to user, etc.
       }
     },
   });
 
-  const {
-    handleSubmit,
-    getFieldProps,
-    handleChange,
-    values,
-    handleBlur,
-  } = formik;
-
-
   return (
-    <form onSubmit={handleSubmit}>
-
+    <form onSubmit={formik.handleSubmit}>
       <TextField
-        {...getFieldProps("email")}
-        onChange={handleChange}
-        onBlur={handleBlur}
+        {...formik.getFieldProps("username")}
         id="username"
-        name="username"
-        value={values.username}
         label="Username"
         fullWidth
         size="small"
         color="primary"
         variant="outlined"
-        margin="normal" 
-        InputLabelProps={{
-          shrink: true
-        }}
+        margin="normal"
+        autoComplete='off'
       />
-
       <TextField
-        {...getFieldProps("password")}
-        onChange={handleChange}
-        onBlur={handleBlur}
+        {...formik.getFieldProps("password")}
+        type="password"
         id="password"
-        name="password"
         label="Password"
         fullWidth
         size="small"
         color="primary"
         variant="outlined"
-        margin="normal" 
-        InputLabelProps={{
-          shrink: true, 
-        }}
+        margin="normal"
+        autoComplete='off'
       />
-      <button
+      <Button
         type="submit"
-        className="btn btn-primary"
-        style={{
-          background: "linear-gradient(195deg, #49a3f1, #1A73E8)",
-          borderRadius: "5px",
-          border: "none",
-          width: "100%",
-          paddingTop: "10px",
-          paddingBottom: "10px",
-          marginTop: "10px",
-          color: "white",
-          cursor: "pointer",
-        }}
+        variant="contained"
+        color="primary"
+        fullWidth
+        style={{ marginTop: "10px" }}
       >
         Submit
-      </button>
+      </Button>
     </form>
-
   );
 };
 

@@ -29,7 +29,7 @@ const login = async (req, res) => {
     const token = jwt.sign({ farmerId: farmer._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     success = true;
 
-    res.status(200).json({ farmer, success });
+    res.status(200).json({ farmer, success, token });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -79,8 +79,18 @@ const dataUploads = async (req, res) => {
 
 }
 
+const getAllFarmers = async (req, res) => {
+  try {
+    const farmers = await Farmer.find();
+    res.status(200).json(farmers);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 module.exports = {
   login,
   register,
-  dataUploads
+  dataUploads,
+  getAllFarmers
 }

@@ -23,7 +23,6 @@ const [folderList, setFolderList] = useState(initialFolderList);
         },
       });
       const json = await response.json();
-      console.log("Response:", json); // Log the response data
       setFolderList(json);
     } catch (error) {
       console.error("Error fetching data:", error);

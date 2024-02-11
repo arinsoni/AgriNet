@@ -12,9 +12,11 @@ import Folder from "./Pages/Folder";
 import FarmerDashboard from "./Pages/FarmerDashboard";
 import AdminLogin from "./Pages/Admin/Login";
 import FarmerLogin from "./Pages/Farmer/Login";
+import AdminState from "./context/admin/adminState";
 
 const App = () => {
   return (
+   
     <Router>
       <Routes>
         <Route exact path="/" element={<Homepage />} />
