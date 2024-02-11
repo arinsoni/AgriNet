@@ -8,6 +8,7 @@ import Homepage from "./Pages/Homepage";
 import AdminDashboard from "./Pages/AdminDashboard";
 import FarmerRegister from "./Pages/Farmer/Register";
 import AdminRegister from "./Pages/Admin/Register";
+import Folder from "./Pages/Folder";
 
 const App = () => {
   return (
