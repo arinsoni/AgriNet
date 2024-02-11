@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, Typography, Button, Grid, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from "@mui/material";
 import { Link } from "react-router-dom"; // Import useHistory hook
+import Navbar from "./Navbar";
+
 
 const AdminDashboard = () => {
   const initialFolderList = [];
@@ -46,9 +48,15 @@ const AdminDashboard = () => {
       console.error("Error creating folder:", error);
     }
   };
+  const propValue = "Login as Farmer";
+
 
   return (
+    <>
+      <Navbar prop={propValue } />
+
     <div style={{ position: 'relative', minHeight: '100vh' }}>
+
       <Grid
         container
         spacing={2}
@@ -120,6 +128,8 @@ const AdminDashboard = () => {
         </DialogActions>
       </Dialog>
     </div>
+    </>
+
   );
 };
 
