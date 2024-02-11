@@ -11,10 +11,10 @@ import AdminDashboard from "./Pages/AdminDashboard";
 const App = () => {
   return (
     <Router>
-        <Routes>
-          <Route exact path="/" element={<Homepage />} />
-          <Route exact path="/admin/dashboard" element={<AdminDashboard />} />
-        </Routes>
+      <Routes>
+        <Route exact path="/" element={<Homepage />} />
+        <Route exact path="/admin/dashboard" element={<AdminDashboard />} />
+      </Routes>
     </Router>
   );
 };
