@@ -11,9 +11,9 @@ const router = express.Router();
 
 router.post("/login", login);
 router.post("/register", register);
-router.get("/all-farmers", verifyToken, getAllFarmers);
-router.post("/data-uploads", verifyToken, dataUploads);
-router.use("/assigned-folders/:farmerId", verifyToken, getAssignedFolders);
+router.get("/all-farmers",  getAllFarmers);
+router.post("/data-uploads",  dataUploads);
+router.use("/assigned-folders/:farmerId",  getAssignedFolders);
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {

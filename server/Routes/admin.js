@@ -6,14 +6,14 @@ const router = express.Router();
 
 router.use("/login", login);
 router.use("/register", register);
-router.use("/create-folders", verifyToken ,createFolders);
-router.use("/folder-assignments", verifyToken ,folderAssignment);
-router.use("/folders", verifyToken ,folders);
-router.use("/delete-folder/:id", verifyToken, deleteFolder);
-router.use("/get-assigned-farmers", verifyToken, getAssignedFarmers);
-router.use("/get-unassigned-farmers", verifyToken, getUnAssignedFarmers);
-router.use("/get-admin", verifyToken, getAdmin);
-router.use("/folder/:folderId/images", verifyToken, getImages);
-router.use("/get-text", verifyToken, getText);
+router.use("/create-folders", createFolders);
+router.use("/folder-assignments", folderAssignment);
+router.use("/folders", folders);
+router.use("/delete-folder/:id",  deleteFolder);
+router.use("/get-assigned-farmers",  getAssignedFarmers);
+router.use("/get-unassigned-farmers",  getUnAssignedFarmers);
+router.use("/get-admin",  getAdmin);
+router.use("/folder/:folderId/images",  getImages);
+router.use("/get-text",  getText);
 
 module.exports = router;
