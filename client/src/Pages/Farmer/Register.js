@@ -79,6 +79,7 @@ const FarmerRegister = () => {
               alignItems: "center",
             }}
           >
+            Farmer Registration
             <form onSubmit={handleSubmit}>
               <TextField
                 {...getFieldProps("username")}

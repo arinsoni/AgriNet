@@ -1,12 +1,11 @@
-import React from 'react';
-
-// formik and Yup
+import React from "react";
 import { useFormik } from "formik";
-import { TextField, Button, Box } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { TextField, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const FarmerLogin = () => {
   const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -14,7 +13,7 @@ const FarmerLogin = () => {
     },
     onSubmit: async (values) => {
       const { username, password } = values;
-      const response = await fetch("http://localhost:6001/api/farmer/login", {
+      const response = await fetch("http://localhost:6001/api/Farmer/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -23,28 +22,20 @@ const FarmerLogin = () => {
       });
 
       const json = await response.json();
-      if(json.success){
+      if (json.success) {
         localStorage.setItem("token", json.token);
-        navigate(`/farmer-dashboard/${json.farmer._id}`)
+        navigate("/farmer/dashboard"); // Navigate to the farmer dashboard
       }
-      
     },
   });
 
-  const {
-    handleSubmit,
-    getFieldProps,
-    handleChange,
-    values,
-    handleBlur,
-  } = formik;
-
+  const { handleSubmit, getFieldProps, handleChange, values, handleBlur } =
+    formik;
 
   return (
     <form onSubmit={handleSubmit}>
-
       <TextField
-        {...getFieldProps("email")}
+        {...getFieldProps("username")}
         onChange={handleChange}
         onBlur={handleBlur}
         id="username"
@@ -55,12 +46,11 @@ const FarmerLogin = () => {
         size="small"
         color="primary"
         variant="outlined"
-        margin="normal" 
+        margin="normal"
         InputLabelProps={{
-          shrink: true, 
+          shrink: true,
         }}
       />
-
       <TextField
         {...getFieldProps("password")}
         onChange={handleChange}
@@ -72,30 +62,21 @@ const FarmerLogin = () => {
         size="small"
         color="primary"
         variant="outlined"
-        margin="normal" 
+        margin="normal"
         InputLabelProps={{
-          shrink: true, 
+          shrink: true,
         }}
       />
-      <button
+      <Button
         type="submit"
-        className="btn btn-primary"
-        style={{
-          background: "linear-gradient(195deg, #49a3f1, #1A73E8)",
-          borderRadius: "5px",
-          border: "none",
-          width: "100%",
-          paddingTop: "10px",
-          paddingBottom: "10px",
-          marginTop: "10px",
-          color: "white",
-          cursor: "pointer",
-        }}
+        variant="contained"
+        color="primary"
+        fullWidth
+        style={{ marginTop: "10px" }}
       >
         Submit
-      </button>
+      </Button>
     </form>
-
   );
 };
 
